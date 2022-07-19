@@ -13,23 +13,24 @@ app.use(express.static('public'))
 
 // 顯示動態資料
 const data = require('./restaurant.json')
+const restaurants = data.results
 
 // 1.顯示首頁清單
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: data.results })
+  res.render('index', { restaurants })
 })
 // 2.顯示點選的餐廳詳細資訊
 app.get('/restaurants/:id', (req, res) => {
-  const onclickRestaurant = data.results.find(d => d.id.toString() === req.params.id)
-  res.render('show', { restaurant: onclickRestaurant })
+  const restaurant = restaurants.find(d => d.id.toString() === req.params.id)
+  res.render('show', { restaurant })
 })
 // 3.顯示符合搜尋關鍵字的餐廳清單
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.toLowerCase()
-  const searchRestaurant = data.results.filter(d => {
+  const restaurants = restaurants.filter(d => {
     return d.name.toLowerCase().includes(keyword) || d.name_en.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword)
   })
-  res.render('index', { restaurants: searchRestaurant })
+  res.render('index', { restaurants })
 })
 
 // 伺服器監聽器
