@@ -27,10 +27,10 @@ app.get('/restaurants/:id', (req, res) => {
 // 3.顯示符合搜尋關鍵字的餐廳清單
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.toLowerCase()
-  const restaurants = restaurants.filter(d => {
+  const searchRestaurants = restaurants.filter(d => {
     return d.name.toLowerCase().includes(keyword) || d.name_en.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword)
   })
-  res.render('index', { restaurants })
+  res.render('index', { restaurants:searchRestaurants })
 })
 
 // 伺服器監聽器
