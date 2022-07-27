@@ -18,6 +18,7 @@ const restaurants = data.results
 // 連接資料庫
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
+const RestaurantList = require('./models/restaurant-list.js')
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
 db.on('error', () => {
@@ -29,7 +30,13 @@ db.once('open', () => {
 
 // 1.顯示首頁清單
 app.get('/', (req, res) => {
-  res.render('index', { restaurants })
+  RestaurantList.find()
+    .lean()
+    .then(restaurantLists => {
+      res.render('index', { restaurants: restaurantLists })
+    })
+    .catch(error => console.log('error'))
+  
 })
 // 2.顯示點選的餐廳詳細資訊
 app.get('/restaurants/:id', (req, res) => {
