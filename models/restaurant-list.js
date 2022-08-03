@@ -7,10 +7,13 @@ const restaurantListSchema = new Schema({
     required: true
   },
   name_en:{ type: String },
-  category:{ type: String },
-  image:{
+  category:{ 
     type: String,
-    required:true
+    enum: ['美式', '咖啡', '中東料理', '日本料理', '義式餐廳', '酒吧', '其他'],
+    required: true
+  },
+  image:{
+    type: String
   },
   location: {
     type: String,
@@ -23,8 +26,7 @@ const restaurantListSchema = new Schema({
     maxLength:12
   },
   google_map: {
-    type: String,
-    required: true
+    type: String
   },
   rating: {
     type: Number,
