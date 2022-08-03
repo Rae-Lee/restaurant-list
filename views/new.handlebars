@@ -1,0 +1,61 @@
+
+  <div class="container py-5 px-6 ">
+  
+    <div class="row ">
+      <div class="col-12 col-lg-10 col-xl-8 mx-auto form-outer">
+        <div class="card">
+          <div class="card-body">
+            
+  <form action="/restaurants" method="POST">
+    
+      <div class="row g-2 mb-3">
+        <label for="restaurantName" class="col-md-4  col-form-label align-items-center">餐廳名字</label>
+        <div class="col-md-9">
+        <input type="text" class="form-control" name="name" placeholder="" id="restaurantName"required>
+      </div>
+      </div>
+      <div class="row g-2 mb-3">
+        <label for="restaurantNameEn" class="col-md-4  col-form-label align-items-center">餐廳英文名字</label>
+        <div class="col-md-9">
+        <input type="text" class="form-control" name="name_en" placeholder=""d="restaurantNameEn">
+        </div>
+      </div>
+      <div class="row g-2 mb-3">
+        <label for="restaurantLocation" class="col-md-4  col-form-label align-items-center">餐廳地址</label>
+        <div class="col-md-9">
+        <input type="text" class="form-control" name="location" placeholder="" id="restaurantLocation" required>
+        </div>
+      </div>
+      <div class="row g-2 mb-3">
+        <label for="restaurantPhone"class="col-md-4  col-form-label align-items-center">餐廳電話</label>
+        <div class="col-md-9">
+        <input type="tel" class="form-control" name="phone" placeholder="02 XXXX XXXX" id="restaurantPhone"  required>
+        </div>
+      </div>
+      <div class="row g-2 form-group mb-5">
+        <label for="restaurantCategory"class="col-md-4  col-form-label align-items-center">餐廳種類</label>
+        <div class="col-md-9">
+          <select name="category" id="restaurantCategory"class="form-select" aria-label="restaurantCategory"required>
+            <option selected>選擇餐廳種類</option>
+            <option >美式</option>
+            <option >咖啡</option>
+            <option >中東料理</option>
+            <option >日本料理</option>
+            <option >義式餐廳</option>
+            <option >酒吧</option>
+            <option >其他</option>
+          </select>
+          </div>
+      </div>
+      <div class=" mb-4">
+        <textarea class="form-control" id="restaurantDescription" name="description" rows="3"placeholder="請寫下關於餐廳的介紹" ></textarea>
+      </div>
+      
+    
+    <button type="submit" class="btn btn-major">儲存</button>
+
+  </form>
+</div>
+</div>
+</div>
+</div>
