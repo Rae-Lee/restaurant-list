@@ -134,6 +134,9 @@ header {
   right:3px;
   bottom:3px
 }
+.no-bullet {
+  list-style-type: none
+}
 
 @media screen and (max-width: 992px) {
   .card img {
