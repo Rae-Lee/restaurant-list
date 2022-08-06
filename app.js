@@ -29,14 +29,15 @@ const multer = require('multer')
 const upload = multer()
 
 app.use(express.urlencoded({ extended:true }))
+
 // 1.顯示首頁清單
 app.get('/', (req, res) => {
-  RestaurantList.find()
+  return RestaurantList.find()
     .lean()
-    .then(restaurantLists => {
-      res.render('index', { restaurants: restaurantLists })
+    .then(restaurants => {
+      res.render('index', { restaurants })
     })
-    .catch(error => console.log('index error'))
+    .catch(error => console.log(error))
   
 })
 // 2.顯示建立餐廳的頁面
@@ -45,24 +46,65 @@ app.get('/restaurants/new', (req, res) => {
 })
 // 3. 新增餐廳
 app.post('/restaurants', (req, res) => {
-  const information= req.body
-  console.log(information)
-  return RestaurantList.create(information)
+  const restaurant = req.body
+  return RestaurantList.create(restaurant)
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
-
 })
-// 4.顯示點選的餐廳詳細資訊
+
+// 4.顯示點選的餐廳詳細資訊頁面
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  RestaurantList.findById(id)
+  return RestaurantList.findById(id)
     .lean()
-    .then(restaurantList => {
-      res.render('show', { restaurant: restaurantList })
+    .then(restaurant => {
+      res.render('show', { restaurant })
     })       
-    .catch(error => console.log('show error'))
+    .catch(error => console.log(error))
 })
-// 3.顯示符合搜尋關鍵字的餐廳清單
+
+// 5. 顯示編輯餐廳的頁面
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  return RestaurantList.findById(id)
+    .lean()
+    .then(restaurant => {
+      res.render('edit', { restaurant })
+    })
+    .catch(error => console.log(error))
+})
+
+// 6. 編輯餐廳
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  const editRestaurant = req.body
+  return RestaurantList.findById(id)
+    .then(restaurant => {
+      restaurant.name = editRestaurant.name
+      restaurant.name_en = editRestaurant.name_en
+      restaurant.location = editRestaurant.location
+      restaurant.google_map = editRestaurant.google_map
+      restaurant.phone = editRestaurant.phone
+      restaurant.category = editRestaurant.category
+      restaurant.image = editRestaurant.image
+      restaurant.description = editRestaurant.description
+      return restaurant.save()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+}) 
+
+// 7. 刪除餐廳
+app.post('/restaurants/:id/delete', (req, res) => {
+  const id = req.params.id
+  return RestaurantList.findById(id)
+    .then(restaurant => {
+      restaurant.remove()
+    })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+}) 
+// 8.顯示符合搜尋關鍵字的餐廳清單
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.toLowerCase()
   const searchRestaurants = restaurants.filter(d => {

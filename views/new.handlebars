@@ -27,16 +27,28 @@
         </div>
       </div>
       <div class="row g-2 mb-3">
+        <label for="googleMapLocation" class="col-md-4  col-form-label align-items-center">Google map網址</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="google_map" placeholder="" id="googleMapLocation">
+        </div>
+      </div>
+      <div class="row g-2 mb-3">
         <label for="restaurantPhone"class="col-md-4  col-form-label align-items-center">餐廳電話</label>
         <div class="col-md-9">
         <input type="tel" class="form-control" name="phone" placeholder="02 XXXX XXXX" id="restaurantPhone"  required>
         </div>
       </div>
+      <div class="row g-2 mb-3">
+        <label for="image" class="col-md-4  col-form-label align-items-center">圖片來源</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" name="image" placeholder="請貼上網址" id="image" required>
+        </div>
+        </div>
       <div class="row g-2 form-group mb-5">
         <label for="restaurantCategory"class="col-md-4  col-form-label align-items-center">餐廳種類</label>
         <div class="col-md-9">
           <select name="category" id="restaurantCategory"class="form-select" aria-label="restaurantCategory"required>
-            <option selected>選擇餐廳種類</option>
+            <option selected  disabled hidden>選擇餐廳種類</option>
             <option >美式</option>
             <option >咖啡</option>
             <option >中東料理</option>
@@ -47,6 +59,7 @@
           </select>
           </div>
       </div>
+      
       <div class=" mb-4">
         <textarea class="form-control" id="restaurantDescription" name="description" rows="3"placeholder="請寫下關於餐廳的介紹" ></textarea>
       </div>
