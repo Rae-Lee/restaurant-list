@@ -2,7 +2,7 @@
 ![--------](/public/image/restaurant-list-logo.png)
 
 ## :pencil: About the project
-My Restaurant List is a project to display all the restaurants I stored. It helps find the restaurants through searching the keywords or categories.
+My Restaurant List is a project to display all the restaurants I stored. It helps find the restaurants through searching the keywords or categories.Also it helps add and edit restaurants.
 
 ![](/public/image/launch-page.png)
 ## :book: Feature
@@ -10,6 +10,8 @@ My Restaurant List is a project to display all the restaurants I stored. It help
  - Click restaurants to check its description.
  - Search restaurants by name and category.
  - Connect to Google Maps.
+ - Add restaurants to pages.
+ - Edit and delete restaurants.
 
 ## :flower_playing_cards: Site
 ### Show page
@@ -17,6 +19,10 @@ My Restaurant List is a project to display all the restaurants I stored. It help
 ![](/public/image/description.PNG)
 ### Search
 ![](/public/image/search-demo.gif)
+### Add restaurant
+![](/public/image/add-restaurant.PNG)
+### Edit/Delete restaurant
+![](/public/image/edit-and-delete-restaurant.PNG)
 ## :floppy_disk:Usage
 ### Getting Start
 1. Install Node
