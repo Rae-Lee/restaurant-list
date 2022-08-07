@@ -24,11 +24,11 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-// 載入上傳圖片套件
-const multer = require('multer')
-const upload = multer()
+// 複寫HTTP方法
+const methodOverride = require('method-override')
 
 app.use(express.urlencoded({ extended:true }))
+app.use(methodOverride('_method'))
 
 // 1.顯示首頁清單
 app.get('/', (req, res) => {
@@ -84,7 +84,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 // 6. 編輯餐廳
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const { name, name_en, location, google_map, phone, image, category, description } = req.body
   return RestaurantList.findById(id)
@@ -111,7 +111,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 }) 
 
 // 7. 刪除餐廳
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return RestaurantList.findById(id)
     .then(restaurant => {

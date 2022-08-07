@@ -6,7 +6,7 @@
         <div class="card-body "class="position-relative">
           <p class="fs-1 text-center card-title fw-bold">編輯此餐廳 </p>
           
-          <form action="/restaurants/{{restaurant._id}}/edit" method="POST" >
+          <form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST" >
 
             <div class="row g-2 mb-3">
               <label for="restaurantName" class="col-md-4  col-form-label align-items-center">餐廳名字</label>
@@ -69,7 +69,8 @@
             <a href="/" class="btn btn-light" role="button">返回</a>
             
           </form>
-          <form action="/restaurants/{{restaurant._id}}/delete" class="d-flex flex-row-reverse " method="POST">
+          <form action="/restaurants/{{restaurant._id}}?_method=DELETE
+          " class="d-flex flex-row-reverse " method="POST">
             <button type="submit" class="btn btn-light">刪除</button>
           </form>
         </div>
