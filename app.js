@@ -47,6 +47,15 @@ app.get('/restaurants/new', (req, res) => {
 // 3. 新增餐廳
 app.post('/restaurants', (req, res) => {
   const restaurant = req.body
+  const category = req.body.category
+  restaurant.American = category === '美式'
+  restaurant.cafe = category === '咖啡'
+  restaurant.MiddleEastern = category === '中東料理'
+  restaurant.Japanese = category === '日本料理'
+  restaurant.Italian = category === '義式餐廳'
+  restaurant.pub = category === '酒吧'
+  restaurant.other = category === '其他'
+
   return RestaurantList.create(restaurant)
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -77,17 +86,24 @@ app.get('/restaurants/:id/edit', (req, res) => {
 // 6. 編輯餐廳
 app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  const editRestaurant = req.body
+  const { name, name_en, location, google_map, phone, image, category, description } = req.body
   return RestaurantList.findById(id)
     .then(restaurant => {
-      restaurant.name = editRestaurant.name
-      restaurant.name_en = editRestaurant.name_en
-      restaurant.location = editRestaurant.location
-      restaurant.google_map = editRestaurant.google_map
-      restaurant.phone = editRestaurant.phone
-      restaurant.category = editRestaurant.category
-      restaurant.image = editRestaurant.image
-      restaurant.description = editRestaurant.description
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.location = location
+      restaurant.google_map = google_map
+      restaurant.phone = phone
+      restaurant.category = category
+      restaurant.image = image
+      restaurant.description = description
+      restaurant.American = category === '美式'
+      restaurant.cafe = category === '咖啡'
+      restaurant.MiddleEastern = category === '中東料理'
+      restaurant.Japanese = category === '日本料理'
+      restaurant.Italian = category === '義式餐廳'
+      restaurant.pub = category === '酒吧'
+      restaurant.other = category === '其他'
       return restaurant.save()
     })
     .then(() => res.redirect('/'))

@@ -48,16 +48,15 @@
             <div class="row g-2 form-group mb-5">
               <label for="restaurantCategory" class="col-md-4  col-form-label align-items-center">餐廳種類</label>
               <div class="col-md-9">
-                <select name="category" id="restaurantCategory" class="form-select" aria-label="restaurantCategory" value="{{ restaurant.category }}"
+                <select name="category" id="restaurantCategory" class="form-select" aria-label="restaurantCategory">
                   required>
-                  <option selected  disabled hidden>選擇餐廳種類</option>
-                  <option>美式</option>
-                  <option>咖啡</option>
-                  <option>中東料理</option>
-                  <option>日本料理</option>
-                  <option>義式餐廳</option>
-                  <option>酒吧</option>
-                  <option>其他</option>
+                  <option {{#if restaurant.American}} selected {{/if}}>美式</option>
+                  <option {{#if restaurant.cafe}} selected {{/if}}>咖啡</option>
+                  <option {{#if restaurant.MiddleEastern}} selected {{/if}}>中東料理</option>
+                  <option {{#if restaurant.Japanese}} selected {{/if}}>日本料理</option>
+                  <option {{#if restaurant.Italian}} selected {{/if}}>義式餐廳</option>
+                  <option {{#if restaurant.pub}} selected {{/if}}>酒吧</option>
+                  <option {{#if restaurant.other}} selected {{/if}}>其他</option>
                 </select>
               </div>
             </div>
