@@ -48,7 +48,7 @@
                 <ul class="dropdown-menu"aria-labelledby="dropdownMenuButton">
                   <li><a class="dropdown-item " href="./restaurants/{{this._id}}/edit">編輯</a></li>
                   <li><a class="dropdown-item " href="./restaurants/{{this._id}}">詳細資訊</a></li>
-                  <form action="/restaurants/{{this._id}}/delete" method="POST">
+                  <form action="/restaurants/{{this._id}}?_method=DELETE" method="POST">
                   <li class="no-bullet">
                     <button type="submit"class="dropdown-item text-danger " >刪除</button>
                   </li>
