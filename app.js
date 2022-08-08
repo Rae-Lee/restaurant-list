@@ -122,11 +122,19 @@ app.delete('/restaurants/:id', (req, res) => {
 }) 
 // 8.顯示符合搜尋關鍵字的餐廳清單
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.toLowerCase()
-  const searchRestaurants = restaurants.filter(d => {
-    return d.name.toLowerCase().includes(keyword) || d.name_en.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword)
-  })
-  res.render('index', { restaurants: searchRestaurants })
+  const keyword = req.query.keyword.trim().toLowerCase()
+  if (!keyword) {
+    res.redirect("/")
+  }
+  return RestaurantList.find()
+    .lean()
+    .then(restaurants => {
+        const filteredRestaurants = restaurants.filter(d => {
+        return d.name.toLowerCase().includes(keyword) || d.name_en.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword)
+        })
+      res.render('index', { restaurants: filteredRestaurants })
+    })
+    .catch(error => console.log(error))
 })
 
 
