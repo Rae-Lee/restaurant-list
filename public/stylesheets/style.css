@@ -39,7 +39,7 @@ header {
 
 .search-bar .search-bar-outer {
   margin: 0 auto;
-  max-width: 680px;
+  max-width: 900px;
   background-color: #fce2cf;
   border-radius: 8px;
   padding: 20px 30px;
@@ -47,6 +47,16 @@ header {
   margin-top: -60px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
+.form-outer{
+    margin: 0 auto;
+    max-width: 100%;
+    background-color: #dddddd;
+    border-radius: 8px;
+    padding: 20px 20px;
+    border: 0;
+    margin-top: -260px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
 
 .search-bar .search-bar-inner h4 {
   color: #9b4b4b;
@@ -69,6 +79,7 @@ header {
 
 .card {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  position:relative
 }
 
 .card img {
@@ -116,6 +127,15 @@ header {
 .alert {
   max-width: 680px;
   text-align: center;
+}
+
+.dropdown {
+  position: absolute;
+  right:3px;
+  bottom:3px
+}
+.no-bullet {
+  list-style-type: none
 }
 
 @media screen and (max-width: 992px) {
