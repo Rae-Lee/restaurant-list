@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const restaurantListSchema = new Schema({
-  id:{ type: Number },
-  name:{
+  id: { type: Number },
+  name: {
     type: String,
     required: true
   },
-  name_en:{ type: String },
-  category:{ 
+  name_en: { type: String },
+  category: { 
     type: String,
-    enum: ['美式', '咖啡', '中東料理', '日本料理', '義式餐廳', '酒吧', '其他' ]
+    enum: ['美式', '咖啡', '中東料理', '日本料理', '義式餐廳', '酒吧', '其他']
   },
-  image:{
+  image: {
     type: String,
-    required:true
+    required: true
   },
   location: {
     type: String,
@@ -22,20 +22,20 @@ const restaurantListSchema = new Schema({
   phone: {
     type: String,
     required: true,
-    maxLength:12
+    maxLength: 12
   },
   google_map: {
     type: String
   },
   rating: {
     type: Number,
-    min:0,
-    max:5
+    min: 0,
+    max: 5
   },
   description: { type: String },
   American: {
     type: Boolean,
-    default:false
+    default: false
   },
   cafe: {
     type: Boolean,

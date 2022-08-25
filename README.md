@@ -33,18 +33,32 @@ Download Node:https://nodejs.org/en/
 git clone https://github.com/Rae-Lee/restaurant-list.git
 ```
 
-3. Open the project and download Express and Express-Handlebars
+3. Open the project and download Express, Express-Handlebars, Mongoose, Dotenv, and Method-override
 ```js
 npm init -y
 ```
 ```js
-npm i express @4.16.4
+npm i express@4.16.4
 ```
 ```js
-npm i express-Handlebars @3.0.0
+npm i express-handlebars@3.0.0
 ```
+```js
+npm i mongoose
+```
+```js
+npm i dotenv
+```
+```js
+npm i method-override
+```
+4. Connect to MongoDB, create a database and add MongoDB_URI to .env.example file.
 
-4. Run the project
+5. Add seeds dataset to database
+```js
+npm run seed
+```
+6. Run the project
 ```js
 npm run start
 ```
@@ -63,5 +77,7 @@ and you can type" http://localhost:3000 "on your browser to open it.
 - Express-Handlebars 3.0.0
 - Bootstrap 5.2.0
 - Font-awesome 
+- method-override 3.0.0
+- mongoose 6.5.1
 ##  License
 MIT © [Rae Lee](https://github.com/Rae-Lee)
