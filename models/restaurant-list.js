@@ -32,35 +32,7 @@ const restaurantListSchema = new Schema({
     min: 0,
     max: 5
   },
-  description: { type: String },
-  American: {
-    type: Boolean,
-    default: false
-  },
-  cafe: {
-    type: Boolean,
-    default: false
-  },
-  MiddleEastern: {
-    type: Boolean,
-    default: false
-  },
-  Japanese: {
-    type: Boolean,
-    default: false
-  },
-  pub: {
-    type: Boolean,
-    default: false
-  },
-  Italian: {
-    type: Boolean,
-    default: false
-  },
-  other: {
-    type: Boolean,
-    default: false
-  }
+  description: { type: String }
 })
 
 module.exports = mongoose.model('RestaurantList', restaurantListSchema) 

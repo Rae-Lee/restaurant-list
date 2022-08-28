@@ -9,16 +9,7 @@ router.get('/new', (req, res) => {
 // 3. 新增餐廳
 router.post('/', (req, res) => {
   const restaurant = req.body
-  const category = req.body.category
-  restaurant.American = category === '美式'
-  restaurant.cafe = category === '咖啡'
-  restaurant.MiddleEastern = category === '中東料理'
-  restaurant.Japanese = category === '日本料理'
-  restaurant.Italian = category === '義式餐廳'
-  restaurant.pub = category === '酒吧'
-  restaurant.other = category === '其他'
-
-  return RestaurantList.create(restaurant)
+  return RestaurantList.create({ ...restaurant })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
@@ -37,10 +28,35 @@ router.get('/:id', (req, res) => {
 // 5. 顯示編輯餐廳的頁面
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id
+  const isSelected = {}
   return RestaurantList.findById(id)
     .lean()
     .then(restaurant => {
-      res.render('edit', { restaurant })
+      const category = restaurant.category
+      switch (category) {
+        case '美式':  
+          isSelected.American = 1
+          break;
+        case '咖啡': 
+          isSelected.cafe = 1
+          break;
+        case '中東料理':  
+          isSelected.MiddleEastern = 1
+          break;
+        case '日本料理':  
+          isSelected.Japanese = 1
+          break;
+        case '義式餐廳':  
+          isSelected.Italian = 1
+          break;
+        case '酒吧':  
+          isSelected.pub = 1
+          break;
+        case '其他':  
+          isSelected.other = 1
+          break;
+      }
+      res.render('edit', { restaurant, isSelected })
     })
     .catch(error => console.log(error))
 })
@@ -48,24 +64,9 @@ router.get('/:id/edit', (req, res) => {
 // 6. 編輯餐廳
 router.put('/:id', (req, res) => {
   const id = req.params.id
-  const { name, nameEn, location, googleMap, phone, image, category, description } = req.body
   return RestaurantList.findById(id)
     .then(restaurant => {
-      restaurant.name = name
-      restaurant.name_en = nameEn
-      restaurant.location = location
-      restaurant.google_map = googleMap
-      restaurant.phone = phone
-      restaurant.category = category
-      restaurant.image = image
-      restaurant.description = description
-      restaurant.American = category === '美式'
-      restaurant.cafe = category === '咖啡'
-      restaurant.MiddleEastern = category === '中東料理'
-      restaurant.Japanese = category === '日本料理'
-      restaurant.Italian = category === '義式餐廳'
-      restaurant.pub = category === '酒吧'
-      restaurant.other = category === '其他'
+      Object.assign(restaurant, req.body)
       return restaurant.save()
     })
     .then(() => res.redirect('/'))
