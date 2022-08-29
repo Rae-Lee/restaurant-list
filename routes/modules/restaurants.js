@@ -11,7 +11,9 @@ router.post('/', (req, res) => {
   const restaurant = req.body
   return RestaurantList.create({ ...restaurant })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => 
+      {return res.render('error')
+    })
 })
 
 // 4.顯示點選的餐廳詳細資訊頁面
@@ -22,7 +24,9 @@ router.get('/:id', (req, res) => {
     .then(restaurant => {
       res.render('show', { restaurant })
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      return res.render('error')
+    })
 })
 
 // 5. 顯示編輯餐廳的頁面
@@ -58,7 +62,9 @@ router.get('/:id/edit', (req, res) => {
       }
       res.render('edit', { restaurant, isSelected })
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      return res.render('error')
+    })
 })
 
 // 6. 編輯餐廳
@@ -70,7 +76,9 @@ router.put('/:id', (req, res) => {
       return restaurant.save()
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+    .catch(error => {
+      return res.render('error')
+    })
 })
 
 // 7. 刪除餐廳
@@ -81,23 +89,10 @@ router.delete('/:id', (req, res) => {
       restaurant.remove()
     })
     .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
-// 8.顯示符合搜尋關鍵字的餐廳清單
-router.get('/search', (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase()
-  if (!keyword) {
-    res.redirect('/')
-  }
-  return RestaurantList.find()
-    .lean()
-    .then(restaurants => {
-      const filteredRestaurants = restaurants.filter(d => {
-        return d.name.toLowerCase().includes(keyword) || d.name_en.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword)
-      })
-      res.render('index', { restaurants: filteredRestaurants })
+    .catch(error => {
+      return res.render('error')
     })
-    .catch(error => console.log(error))
 })
+
 
 module.exports = router
