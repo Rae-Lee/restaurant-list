@@ -12,8 +12,7 @@ const restaurantListSchema = new Schema({
     enum: ['美式', '咖啡', '中東料理', '日本料理', '義式餐廳', '酒吧', '其他']
   },
   image: {
-    type: String,
-    required: true
+    type: String
   },
   location: {
     type: String,
@@ -21,7 +20,6 @@ const restaurantListSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true,
     maxLength: 12
   },
   google_map: {

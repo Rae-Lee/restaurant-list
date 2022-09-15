@@ -15,6 +15,8 @@ require('./config/mongoose.js')
 const methodOverride = require('method-override')
 // 重構路由
 const routes = require('./routes')
+//上傳圖片設定
+const multer = require('multer')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))

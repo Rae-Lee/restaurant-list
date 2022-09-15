@@ -1,18 +1,53 @@
 const express = require('express')
-const RestaurantList = require('../../models/restaurant-list.js')
+const RestaurantList = require('../../models/restaurant-list.js')//mongoDB schema
 const router = express.Router()
-
-// 2.顯示建立餐廳的頁面
-router.get('/new', (req, res) => {
-  return res.render('new')
+const multer = require('multer')
+const port = 3000
+const imageFile = 'uploadImage'//照片上傳儲存資料夾
+//設定照片儲存地點及名稱
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, `public/${imageFile}`)
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
 })
-// 3. 新增餐廳
-router.post('/', (req, res) => {
-  const restaurant = req.body
-  return RestaurantList.create({ ...restaurant })
+//設定照片上傳格式
+const upload = multer({
+  limit: {
+    fileSize: 1000000
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
+      cb(null, true)
+    } else {
+      cb(null, false)
+      return cb(new Error('請上傳jpg或png檔案'))
+    }
+  },
+  storage
+})
+// 1.顯示建立餐廳的頁面
+router.get('/new', (req, res) => {
+  const GOOGLE_KEY = process.env.GOOGLE_KEY
+  return res.render('new', { GOOGLE_KEY })
+})
+// 2. 新增餐廳
+router.post('/', upload.single('image'), (req, res) => {
+  const url = req.protocol + '://' + req.hostname + ':' + port + '/'
+  const restaurant = JSON.parse(JSON.stringify(req.body))//文字資料回傳
+  //如果有上傳照片
+  if (req.file){
+    const image = `${url}${imageFile}/${req.file.filename}`//圖片URL回傳
+    restaurant.image = image//加入req.body回傳資料中
+  }  
+  const restaurantList = new RestaurantList({})//建立一筆新的餐廳資料
+  Object.assign(restaurantList, restaurant)
+  return restaurantList.save()
     .then(() => res.redirect('/'))
-    .catch(error => 
-      {return res.render('error')
+    .catch(error => {
+      return res.render('error')
     })
 })
 
@@ -32,10 +67,11 @@ router.get('/:id', (req, res) => {
 // 5. 顯示編輯餐廳的頁面
 router.get('/:id/edit', (req, res) => {
   const id = req.params.id
-  const isSelected = {}
+  const isSelected = {}//宣告物件
   return RestaurantList.findById(id)
     .lean()
     .then(restaurant => {
+        //若餐廳係某個特定的類別，則在物件中增加該類別為屬性並將值設定為1
       const category = restaurant.category
       switch (category) {
         case '美式':  
