@@ -1,3 +1,72 @@
+{{!-- category tab bar --}}
+  <div >
+    <form class="menu"action="/">
+    <button class="menu__item">
+      <div class="menu_button">
+        <div class="menu__icon">
+      <i class="fa-solid fa-burger fa-lg"></i>
+        </div>
+        <div>
+        <input  type="submit" class="menu__text" name="homeTab" value="美式">
+      </div>
+    </button>
+    <button class="menu__item">
+      <div class="menu_button">
+        <div class="menu__icon">
+          <i class="fa-solid fa-mug-saucer fa-lg"></i>
+        </div>
+        <div>
+          <input type="submit" class="menu__text" name="homeTab" value="咖啡店">
+      </div>
+    </button>
+  <button class="menu__item">
+      <div class="menu_button">
+      <div class="menu__icon">
+        <i class="fa-solid fa-plate-wheat fa-lg"></i>
+      </div>
+      <div>
+    <input type="submit" class="menu__text" name="homeTab" value="中東料理">
+      </div>
+    </button>
+    <button class="menu__item">
+    <div class="menu_button">
+      <div class="menu__icon">
+        <i class="fa-solid fa-bowl-food fa-lg"></i>
+      </div>
+      <div>
+    <input type="submit" class="menu__text" name="homeTab" value="日本料理">
+    </div>
+  </button>
+    <button class="menu__item">
+      <div class="menu_button">
+        <div class="menu__icon">
+          <i class="fa-solid fa-pizza-slice fa-lg"></i>
+        </div>
+        <div>
+        <input type="submit" class="menu__text" name="homeTab" value="義式餐廳">
+      </div>
+    </button>
+  <button class="menu__item">
+    <div class="menu_button">
+      <div class="menu__icon">
+        <i class="fa-solid fa-wine-glass-empty fa-lg"></i>
+      </div>
+      <div>
+      <input type="submit" class="menu__text" name="homeTab" value="酒吧">
+    </div>
+  </button>
+  <button class="menu__item">
+    <div class="menu_button">
+      <div class="menu__icon">
+      <i class="fa-solid fa-utensils fa-lg"></i>
+      </div>
+      <div>
+      <input type="submit" class="menu__text" name="homeTab" value="其他">
+    </div>
+  </button>
+  </form>
+  </div>
+
 <!-- search bar -->
 <div class="container search-bar">
   <div class="search-bar-outer">
@@ -15,7 +84,6 @@
     </div>
   </div>
 </div>
-
 <!-- restaurant list -->
 
 <div class="container mt-5">
@@ -64,3 +132,16 @@
     </div>
   </div>
 </div>
+
+<script>
+ const menu = document.querySelector('.menu')
+ const button = document.querySelectorAll('.menu__text') 
+ menu.addEventListener('click', event => {
+  for (let i = 0; i < button.length; i++) {
+     if (button[i].classList.contains('line')) {
+       button[i].classList.remove('line')
+     }
+   }
+    event.target.classList.add('line')   
+ })
+</script>

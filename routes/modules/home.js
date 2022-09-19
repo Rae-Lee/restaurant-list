@@ -5,14 +5,21 @@ const port = 3000
 
 // 1.顯示首頁清單
 router.get('/', (req, res) => {
-  return RestaurantList.find()
+  const category = req.query.homeTab
+  let filter 
+  if(category){
+    filter = RestaurantList.find({ category })
+  }else{
+    filter = RestaurantList.find()
+  }
+  return  filter 
     .lean()
     .then(restaurants => {
       res.render('index', { restaurants })
     })
     .catch(error => {
       return res.render('error')
-    })
+    })  
 })
 // 2.顯示符合搜尋關鍵字的餐廳清單
 router.get('/search', (req, res) => {
