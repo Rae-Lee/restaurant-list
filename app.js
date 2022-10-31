@@ -1,7 +1,7 @@
 // 伺服器設定
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT
 
 // 樣板引擎建立
 const exphbs = require('express-handlebars')
