@@ -1,13 +1,22 @@
 {{!-- category tab bar --}}
   <div >
-    <form class="menu"action="/">
+    <form class="menu"action="/search">
+    <button class="menu__item">
+      <div class="menu_button">
+        <div class="menu__icon">
+          <i class="fa-solid fa-plate-wheat fa-lg"></i>
+        </div>
+        <div>
+          <input type="submit" class="menu__text" name="keyword"value="台式">
+        </div>
+    </button>
     <button class="menu__item">
       <div class="menu_button">
         <div class="menu__icon">
       <i class="fa-solid fa-burger fa-lg"></i>
         </div>
         <div>
-        <input  type="submit" class="menu__text" name="homeTab" value="美式">
+        <input  type="submit" class="menu__text" name="keyword" value="美式">
       </div>
     </button>
     <button class="menu__item">
@@ -16,25 +25,25 @@
           <i class="fa-solid fa-mug-saucer fa-lg"></i>
         </div>
         <div>
-          <input type="submit" class="menu__text" name="homeTab" value="咖啡店">
+          <input type="submit" class="menu__text" name="keyword" value="咖啡">
       </div>
     </button>
   <button class="menu__item">
       <div class="menu_button">
       <div class="menu__icon">
-        <i class="fa-solid fa-plate-wheat fa-lg"></i>
+        <i class="fa-solid fa-helmet-safety"></i>
       </div>
       <div>
-    <input type="submit" class="menu__text" name="homeTab" value="中東料理">
+    <input type="submit" class="menu__text" name="keyword" value="中東料理">
       </div>
     </button>
     <button class="menu__item">
     <div class="menu_button">
       <div class="menu__icon">
-        <i class="fa-solid fa-bowl-food fa-lg"></i>
+            <i class="fa-solid fa-bowl-food fa-lg"></i>
       </div>
       <div>
-    <input type="submit" class="menu__text" name="homeTab" value="日本料理">
+    <input type="submit" class="menu__text" name="keyword" value="日本料理">
     </div>
   </button>
     <button class="menu__item">
@@ -43,7 +52,7 @@
           <i class="fa-solid fa-pizza-slice fa-lg"></i>
         </div>
         <div>
-        <input type="submit" class="menu__text" name="homeTab" value="義式餐廳">
+        <input type="submit" class="menu__text" name="keyword" value="義式餐廳">
       </div>
     </button>
   <button class="menu__item">
@@ -52,7 +61,7 @@
         <i class="fa-solid fa-wine-glass-empty fa-lg"></i>
       </div>
       <div>
-      <input type="submit" class="menu__text" name="homeTab" value="酒吧">
+      <input type="submit" class="menu__text" name="keyword" value="酒吧">
     </div>
   </button>
   <button class="menu__item">
@@ -61,7 +70,7 @@
       <i class="fa-solid fa-utensils fa-lg"></i>
       </div>
       <div>
-      <input type="submit" class="menu__text" name="homeTab" value="其他">
+      <input type="submit" class="menu__text" name="keyword" value="其他">
     </div>
   </button>
   </form>
@@ -73,9 +82,18 @@
     <div class="search-bar-inner">
       <form action="/search">
         <h4 class="mb-2">尋找餐廳：</h4>
-        <div class="input-group">
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
-            value="" aria-describedby="search-button">
+        <div class="input-group d-flex">
+            <div class="flex-grow-1">
+            <input type="text" name="keyword" class="form-control " placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+            value="{{keyword}}" aria-describedby="search-button">
+            </div>
+            <div class="">
+            <span class="input-group-text">地點</span>
+            </div>
+            <div class="flex-grow-2">
+            <input type="text" name="location" class="form-control" placeholder="例如：台北市中山區" value="{{location}}"aria-label="Restaurant location...">
+            </div>
+         
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
@@ -84,6 +102,58 @@
     </div>
   </div>
 </div>
+{{!-- filter --}}
+{{#if isSearched}}
+<div class="filter">
+  {{!-- 評分 --}}
+  <div class="row">
+  <form method="POST" class="dropdown col-5 rate" action="{{urlPathRate}}">
+    <button class="btn {{#if isRate}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-rank" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <i class="fa-solid fa-star"></i>評分
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div class="dropdown-item">
+      <input type="radio" id="checkbox1"name="rate" value="-1"><label for="checkbox1">評分高→低</label>
+      </div>
+      <div class="dropdown-item">
+      <input type="radio"id="checkbox2"name="rate" value="1"><label for="checkbox2">評分低→高</label>
+      </div>
+      <div class="dropdown-item">
+          <button type="submit" class="btn btn-major">儲存</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="filter row">
+  {{!-- 價格 --}}
+  <form class="dropdown col-6 price" method="POST" action="{{urlPathPrice}}">
+    <button class="btn {{#if isPrice}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-price" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <i class="fa-solid fa-money-check-dollar"></i>價格
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div class="dropdown-item">
+        <input type="radio"id="check1"name="price" value="$100以下"><label for="check1">$100以下</label>
+      </div>
+      <div class="dropdown-item">
+        <input type="radio"id="check2"name="price" value="$100-$300"><label for="check2">$100-$300</label>
+      </div>
+      <div class="dropdown-item">
+        <input type="radio"id="check3"name="price" value="$300-$1000"><label for="check3">$300-$1000</label>
+      </div>
+      <div class="dropdown-item">
+        <input type="radio"id="check4"name="price" value="$1000以上"><label for="check4">$1000以上</label>
+      </div>
+      <div class="dropdown-item">
+        <button type="submit" class="btn btn-major">儲存</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+{{/if}}
 <!-- restaurant list -->
 
 <div class="container mt-5">
@@ -103,6 +173,7 @@
         
               <div class="restaurant-category mb-1">
                 <i class="fas fa-utensils pr-2"></i> {{this.category}}
+                <span>.{{this.price}}</span>
               </div>
         
               <span class="badge badge-pill badge-danger font-weight-normal">
@@ -110,7 +181,7 @@
                 <i class="fas fa-star fa-xs"></i>
               </span>
               <div class="dropdown">
-                <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                <button class="btn  dropdown-toggle function" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   <i class="fa-light fa-grip-dots"></i>
                 </button>

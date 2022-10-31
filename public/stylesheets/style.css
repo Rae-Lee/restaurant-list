@@ -38,7 +38,7 @@ header {
 }
 /* tab bar */
 .menu {
-  margin: -200px auto 0;
+  margin: -300px auto 0;
   width: 42em;
   display: flex;
   height: 10em;
@@ -122,7 +122,36 @@ button:focus:not(:focus-visible) {
   background-color: #9b4b4b;
   color: white;
 }
-
+.notfound{
+    margin: 100px auto;
+}
+/* filter */
+.filter {
+  margin: 0px 300px 0 550px;
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-start;
+  height: 4em;
+  position: relative
+}
+input[type=radio] {
+  width: 10px;
+  height: 10px;
+}
+.rate{
+    position:absolute
+}
+.price{
+    position:absolute
+}
+.btn-rank{
+  -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+.btn-price{
+  -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
 .form-control:focus {
   box-shadow: none;
   border-color: #ced4da;
@@ -130,7 +159,7 @@ button:focus:not(:focus-visible) {
 
 .card {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  position:relative
+  position:relative;
 }
 
 .card img {

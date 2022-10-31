@@ -73,7 +73,11 @@ router.get('/:id/edit', (req, res) => {
     .then(restaurant => {
         //若餐廳係某個特定的類別，則在物件中增加該類別為屬性並將值設定為1
       const category = restaurant.category
+      const price = restaurant.price
       switch (category) {
+        case '台式':
+          isSelected.Taiwanese = 1
+          break;
         case '美式':  
           isSelected.American = 1
           break;
@@ -96,6 +100,20 @@ router.get('/:id/edit', (req, res) => {
           isSelected.other = 1
           break;
       }
+      switch (price) {
+        case '$100以下':
+          isSelected.hundred = 1
+          break;
+        case '$100-$300':
+          isSelected.aboveHundred = 1
+          break;
+        case '$300-$1000':
+          isSelected.thousand = 1
+          break;
+        case '$1000以上':
+          isSelected.aboveThousand = 1
+          break;
+      }
       res.render('edit', { restaurant, isSelected })
     })
     .catch(error => {
@@ -106,12 +124,32 @@ router.get('/:id/edit', (req, res) => {
 // 6. 編輯餐廳
 router.put('/:id', (req, res) => {
   const id = req.params.id
+  const { name, name_en, location, google_map, phone, image, category, price, rating } = req.body
   return RestaurantList.findById(id)
     .then(restaurant => {
-      Object.assign(restaurant, req.body)
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.location = location
+      restaurant.google_map = google_map
+      restaurant.phone = phone
+      restaurant.image = image
+      restaurant.category = category
+      restaurant.price = price
+      restaurant.rating = rating
+      restaurant.markModified('name')
+      restaurant.markModified('name_en')
+      restaurant.markModified('location')
+      restaurant.markModified('google_map')
+      restaurant.markModified('phone')
+      restaurant.markModified('image')
+      restaurant.markModified('category')
+      restaurant.markModified('price')
+      restaurant.markModified('rating')
       return restaurant.save()
     })
-    .then(() => res.redirect('/'))
+    .then(() => {
+      res.redirect('/')
+    })
     .catch(error => {
       return res.render('error')
     })
