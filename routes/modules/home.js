@@ -1,7 +1,8 @@
 const express = require('express')
 const RestaurantList = require('../../models/restaurant-list.js')
 const router = express.Router()
-const port = 3000
+const dotenv = require('dotenv').config()
+const port = process.env.PORT
 
 // 1.顯示首頁清單
 router.get('/', (req, res) => { 
@@ -30,6 +31,7 @@ router.get('/search', (req, res) => {
   }
   else if(!keyword){
     findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findKeyword = [{ 'rating': {'$gt': 4}}]
   }else{
     findLocation = { 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
@@ -87,6 +89,7 @@ router.post('/search', (req, res) => {
   }
   else if (!keyword) {
     findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findKeyword = [{ 'rating': { '$gt': 4 } }]
   } else {
     findLocation = { 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]

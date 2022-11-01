@@ -2,7 +2,8 @@ const express = require('express')
 const RestaurantList = require('../../models/restaurant-list.js')//mongoDB schema
 const router = express.Router()
 const multer = require('multer')
-const port = 3000
+const dotenv = require('dotenv').config()
+const port = process.env.PORT
 const imageFile = 'uploadImage'//照片上傳儲存資料夾
 //設定照片儲存地點及名稱
 const storage = multer.diskStorage({

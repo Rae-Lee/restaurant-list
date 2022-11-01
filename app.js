@@ -1,6 +1,7 @@
 // 伺服器設定
 const express = require('express')
 const app = express()
+const dotenv = require('dotenv').config()
 const port = process.env.PORT
 
 // 樣板引擎建立
