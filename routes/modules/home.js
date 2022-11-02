@@ -1,8 +1,6 @@
 const express = require('express')
 const RestaurantList = require('../../models/restaurant-list.js')
 const router = express.Router()
-const dotenv = require('dotenv').config()
-const port = process.env.PORT
 
 // 1.顯示首頁清單
 router.get('/', (req, res) => { 

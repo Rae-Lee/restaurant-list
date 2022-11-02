@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/stylesheets/style.css">
   
-  
 </head>
 <body>
   <header>
@@ -17,10 +16,21 @@
       <div class="container">
         <a class="navbar-brand" href="/">
           <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
-            width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-          我的餐廳清單
+            width="30" height="30" class="d-inline-block align-top" alt="口袋名單">
+          口袋名單
         </a>
-        <a class="btn btn-major" href="./restaurants/new">建立</a>
+        {{#if isAuthenticated}}
+        <div>
+          {{user.name}}你好
+          <a class="btn btn-light mx-5" href="/">首頁</a>
+          <a class="btn btn-major" href="/restaurants/new">建立</a>
+          <a class="btn btn-major" href="/users/logout">登出</a>
+        </div>
+        {{else}}
+        <div>
+          <a class="btn btn-major" href="/users/login">登入</a>
+        </div>
+        {{/if}}
       </div>
     </nav>
   <div class="banner"></div>

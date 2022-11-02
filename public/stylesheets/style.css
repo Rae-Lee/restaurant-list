@@ -329,6 +329,18 @@ h1 {
 .rating>input:checked~label:hover~label {
   color: #FFED85;
 }
+/* login */
+.login{
+  margin: -300px auto 0;
+}
+.facebook-login{
+ background: #226089;
+}
+/* register */
+.register {
+  margin: -300px auto 0;
+}
+
 @media screen and (max-width: 992px) {
   .card img {
     height: 115px;
