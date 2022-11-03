@@ -2,16 +2,18 @@
 ![--------](/public/image/restaurant-list-logo.png)
 
 ## :pencil: About the project
-My Restaurant List is a project to display all the restaurants I stored. It helps find the restaurants through searching the keywords or categories.Also it helps add and edit restaurants.
+My Restaurant List is a project to display all the restaurants you stored. It helps find the restaurants through searching keywords or using the filter. Also it helps add and edit restaurants.
 
 ![](/public/image/launch-page.png)
 ## :book: Feature
  - Display all restaurants on homepage.
  - Click restaurants to check its description.
- - Search restaurants by name and category.
- - Connect to Google Maps.
- - Add restaurants to pages.
+ - Search restaurants by name, category or location.
+ - Connect to Google Maps. 
+ - Add restaurants information and upload images to pages.
  - Edit and delete restaurants.
+ - Sort restaurants by rating.
+ - Filter restaurants by pricing.
 
 ## :flower_playing_cards: Site
 ### Show page
@@ -75,9 +77,8 @@ and you can type" http://localhost:3000 "on your browser to open it.
 - Node.js 
 - Express 4.16.4
 - Express-Handlebars 3.0.0
-- Bootstrap 5.2.0
-- Font-awesome 
-- method-override 3.0.0
 - mongoose 6.5.1
+- passport 0.4.1
+- multer 1.4.5-lts.1
 ##  License
 MIT © [Rae Lee](https://github.com/Rae-Lee)
