@@ -4,7 +4,8 @@ const router = express.Router()
 
 // 1.顯示首頁清單
 router.get('/', (req, res) => { 
- RestaurantList.find()
+  const userId = req.user._id
+ RestaurantList.find({ userId })
     .lean()
     .then(restaurants => {
       res.render('index', { restaurants })
@@ -15,11 +16,12 @@ router.get('/', (req, res) => {
 })
 // 2.顯示符合搜尋關鍵字的餐廳清單
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const keyword = req.query.keyword || ''
   const location = req.query.location || ''
   const urlPathRate = '/' + 'search' + '?' + 'keyword' + '=' + keyword + '&' + 'location' + '=' + location
   const urlPathPrice = urlPathRate
-  let findLocation = {}
+  let findLocation = { userId }
   let findKeyword = []
   if (!keyword && !location) {
     return res.redirect('/')
@@ -28,10 +30,10 @@ router.get('/search', (req, res) => {
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
   }
   else if(!keyword){
-    findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'rating': {'$gt': 4}}]
   }else{
-    findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
   }
   return RestaurantList.find(findLocation).or(findKeyword)
@@ -48,6 +50,7 @@ router.get('/search', (req, res) => {
 })
 //3.顯示按照評分或價格排列的餐廳
 router.post('/search', (req, res) => {
+  const userId = req.user._id
   const rate = req.body.rate || req.query.rate
   const price = req.body.price || req.query.price
   const location = req.query.location || ''
@@ -58,7 +61,7 @@ router.post('/search', (req, res) => {
   let isPrice = true
   let isRate = true
   let sortRating = {}
-  let findLocation = {}
+  let findLocation = { userId }
   let findPrice = {}
   let findKeyword = []
   if(!rate && !price){
@@ -86,10 +89,10 @@ router.post('/search', (req, res) => {
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
   }
   else if (!keyword) {
-    findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'rating': { '$gt': 4 } }]
   } else {
-    findLocation = { 'location': { $regex: location, $options: '$i' } }
+    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
     findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
   }
   RestaurantList.find(findLocation).find(findPrice).or(findKeyword)
