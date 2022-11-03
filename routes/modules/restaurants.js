@@ -1,34 +1,10 @@
 const express = require('express')
 const RestaurantList = require('../../models/restaurant-list.js')//mongoDB schema
 const router = express.Router()
-const multer = require('multer')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT
+const upload = require('../../config/multer.js')
 const imageFile = 'uploadImage'//照片上傳儲存資料夾
-//設定照片儲存地點及名稱
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, `public/${imageFile}`)
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
-//設定照片上傳格式
-const upload = multer({
-  limit: {
-    fileSize: 1000000
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
-      cb(null, true)
-    } else {
-      cb(null, false)
-      return cb(new Error('請上傳jpg或png檔案'))
-    }
-  },
-  storage
-})
 // 1.顯示建立餐廳的頁面
 router.get('/new', (req, res) => {
   const GOOGLE_KEY = process.env.GOOGLE_KEY
@@ -43,6 +19,7 @@ router.post('/', upload.single('image'), (req, res) => {
     const image = `${url}${imageFile}/${req.file.filename}`//圖片URL回傳
     restaurant.image = image//加入req.body回傳資料中
   }  
+  restaurant.userId = req.user._id
   const restaurantList = new RestaurantList({})//建立一筆新的餐廳資料
   Object.assign(restaurantList, restaurant)
   return restaurantList.save()
@@ -54,8 +31,9 @@ router.post('/', upload.single('image'), (req, res) => {
 
 // 4.顯示點選的餐廳詳細資訊頁面
 router.get('/:id', (req, res) => {
-  const id = req.params.id
-  return RestaurantList.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  return RestaurantList.findOne({userId, _id})
     .lean()
     .then(restaurant => {
       res.render('show', { restaurant })
@@ -67,9 +45,10 @@ router.get('/:id', (req, res) => {
 
 // 5. 顯示編輯餐廳的頁面
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
+  const _id = req.params.id
+  const userId = req.user._id
   const isSelected = {}//宣告物件
-  return RestaurantList.findById(id)
+  return RestaurantList.findOne({userId, _id})
     .lean()
     .then(restaurant => {
         //若餐廳係某個特定的類別，則在物件中增加該類別為屬性並將值設定為1
@@ -124,9 +103,10 @@ router.get('/:id/edit', (req, res) => {
 
 // 6. 編輯餐廳
 router.put('/:id', (req, res) => {
-  const id = req.params.id
+  const _id = req.params.id
+  const userId = req.user._id
   const { name, name_en, location, google_map, phone, image, category, price, rating } = req.body
-  return RestaurantList.findById(id)
+  return RestaurantList.findOne({userId, _id})
     .then(restaurant => {
       restaurant.name = name
       restaurant.name_en = name_en
@@ -158,8 +138,9 @@ router.put('/:id', (req, res) => {
 
 // 7. 刪除餐廳
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  return RestaurantList.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  return RestaurantList.findOne({userId, id})
     .then(restaurant => {
       restaurant.remove()
     })
