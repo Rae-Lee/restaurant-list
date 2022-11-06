@@ -117,15 +117,6 @@ router.put('/:id', (req, res) => {
       restaurant.category = category
       restaurant.price = price
       restaurant.rating = rating
-      restaurant.markModified('name')
-      restaurant.markModified('name_en')
-      restaurant.markModified('location')
-      restaurant.markModified('google_map')
-      restaurant.markModified('phone')
-      restaurant.markModified('image')
-      restaurant.markModified('category')
-      restaurant.markModified('price')
-      restaurant.markModified('rating')
       return restaurant.save()
     })
     .then(() => {
@@ -140,7 +131,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const _id = req.params.id
   const userId = req.user._id
-  return RestaurantList.findOne({userId, id})
+  return RestaurantList.findOne({userId, _id})
     .then(restaurant => {
       restaurant.remove()
     })

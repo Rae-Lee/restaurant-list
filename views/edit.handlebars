@@ -42,7 +42,8 @@
               <label for="image" class="col-md-4  col-form-label align-items-center">圖片來源</label>
               <div class="col-md-9">
                 <div class="imageUpload">
-                  <img src="{{ restaurant.image }}" class="mt-3 mx-3">
+                <input type="text" class="form-control" name="image" placeholder="" id="uploadURL" value="{{ restaurant.image }}" required>
+                <img src="{{ restaurant.image }}" class="mt-3 mx-3">
                 </div>
               </div>  
              </div>
@@ -65,7 +66,7 @@
             <div class="row g-2 form-group mb-5">
               <label for="restaurantPrice" class="col-md-4  col-form-label align-items-center">價格範圍</label>
               <div class="col-md-9">
-                <select name="category" id="restaurantPrice" class="form-select" aria-label="restaurantPrice" required>
+                <select name="price" id="restaurantPrice" class="form-select" aria-label="restaurantPrice" required>
                   <option selected disabled hidden>選擇價格範圍</option>
                   <option {{#if isSelected.hundred}} selected {{/if}}>$100以下</option>
                   <option {{#if isSelected.aboveHundred}} selected {{/if}}>$100-$300</option>
