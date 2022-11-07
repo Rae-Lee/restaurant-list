@@ -21,22 +21,17 @@ router.get('/search', (req, res) => {
   const location = req.query.location || ''
   const urlPathRate = '/' + 'search' + '?' + 'keyword' + '=' + keyword + '&' + 'location' + '=' + location
   const urlPathPrice = urlPathRate
-  let findLocation = { userId }
-  let findKeyword = []
+  const selectParams = { userId }
   if (!keyword && !location) {
     return res.redirect('/')
   }
-  if(!location){
-    findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
+  if(keyword){
+    selectParams.$or = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
   }
-  else if(!keyword){
-    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
-    findKeyword = [{ 'rating': {'$gt': 4}}]
-  }else{
-    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
-    findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
+  if(location){
+    selectParams.location = { $regex: location, $options: '$i' }
   }
-  return RestaurantList.find(findLocation).or(findKeyword)
+  return RestaurantList.find(selectParams)
     .lean()
     .then(restaurants => {
       if (!restaurants.length){
@@ -58,51 +53,41 @@ router.post('/search', (req, res) => {
   const urlPath = '/' + 'search' + '?' + 'keyword' + '=' + keyword + '&' + 'location' + '=' + location
   let urlPathRate = urlPath
   let urlPathPrice = urlPath
-  let isPrice = true
-  let isRate = true
-  let sortRating = {}
-  let findLocation = { userId }
-  let findPrice = {}
-  let findKeyword = []
+  let isSelectedPrice = false
+  let isSelectedRate = false
+  const sortParams = {}
+  const selectParams = { userId }
+  if (!keyword && !location) {
+    return res.redirect('/')
+  }
   if(!rate && !price){
     const url = urlPath
     return res.redirect(url)
   }
-  if(!rate){
+  if (keyword) {
+    selectParams.$or = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
+  }
+  if (location) {
+    selectParams.location = { $regex: location, $options: '$i' }
+  }
+  if (price) {
+    selectParams.price = price 
     urlPathRate = urlPath + '&' + 'price' + '=' + price
-    isRate = false
-    findPrice = { price }
-  }else if(!price){
+    isSelectedPrice = true
+  }
+  if (rate) {
+    sortParams.rating = rate
     urlPathPrice = urlPath + '&' + 'rate' + '=' + rate
-    isPrice = false
-    sortRating = { 'rating': rate }
-  }else{
-    urlPathRate = urlPath + '&' + 'price' + '=' + price
-    urlPathPrice = urlPath + '&' + 'rate' + '=' + rate
-    sortRating = { 'rating': rate }
-    findPrice = { price }
+    isSelectedRate = true
   }
-  if (!keyword && !location) {
-    return res.redirect('/')
-  }
-  if (!location) {
-    findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
-  }
-  else if (!keyword) {
-    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
-    findKeyword = [{ 'rating': { '$gt': 4 } }]
-  } else {
-    findLocation = { userId, 'location': { $regex: location, $options: '$i' } }
-    findKeyword = [{ 'name': { $regex: keyword, $options: '$i' } }, { 'name_en': { $regex: keyword, $options: '$i' } }, { 'category': { $regex: keyword, $options: '$i' } }]
-  }
-  RestaurantList.find(findLocation).find(findPrice).or(findKeyword)
-    .sort(sortRating)    
+  RestaurantList.find(selectParams)
+    .sort(sortParams)    
     .lean() 
     .then(restaurants => {
       if (!restaurants.length) {
         return res.render('index', { notFoundMessage: '<div class="notfound"><h5 class="text-center">搜尋不到任何餐廳</h5></div>' })
       }
-      return res.render('index', { restaurants, isSearched: true, urlPathRate, urlPathPrice, isRate, isPrice })
+      return res.render('index', { restaurants, isSearched: true, urlPathRate, urlPathPrice, isSelectedRate, isSelectedPrice })
     })
     .catch(error => {
       return res.render('error')

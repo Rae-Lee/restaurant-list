@@ -108,7 +108,7 @@
   {{!-- 評分 --}}
   <div class="row">
   <form method="POST" class="dropdown col-5 rate" action="{{urlPathRate}}">
-    <button class="btn {{#if isRate}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-rank" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    <button class="btn {{#if isSelectedRate}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-rank" type="button" id="dropdownMenuButton" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
       <i class="fa-solid fa-star"></i>評分
     </button>
@@ -129,7 +129,7 @@
 <div class="filter row">
   {{!-- 價格 --}}
   <form class="dropdown col-6 price" method="POST" action="{{urlPathPrice}}">
-    <button class="btn {{#if isPrice}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-price" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    <button class="btn {{#if isSelectedPrice}}btn-major{{else}}btn-light{{/if}} dropdown-toggle btn-price" type="button" id="dropdownMenuButton" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
       <i class="fa-solid fa-money-check-dollar"></i>價格
     </button>
